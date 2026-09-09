@@ -57,19 +57,27 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
           <div>
             <span className="text-sm font-semibold tracking-wide text-white flex items-center gap-1.5 font-display">
-              <span>Job</span>
-              <span style={{ color: '#7dd3fc' }} className="font-bold">Craft</span>
-              <span className="text-xs">💼</span>
-              <span className="text-[10px] bg-white/15 text-white px-1.5 py-0.5 rounded font-mono ml-1">12 Templates</span>
+              <span>Jobify</span>
+              <span style={{ color: '#7dd3fc' }} className="font-bold">CV</span>
+              <span className="text-xs font-normal text-white/80 ml-1">Cambodia</span>
             </span>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => {
+              document.getElementById('template-section')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="hidden sm:inline-flex text-xs font-semibold text-white/90 hover:text-white px-2 py-2 transition-colors cursor-pointer"
+          >
+            How it works
+          </button>
+
           {onGoToDashboard && (
             <button
               onClick={onGoToDashboard}
-              className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3.5 py-2 rounded-md border border-white/20 transition-colors cursor-pointer"
+              className="hidden sm:flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3.5 py-2 rounded-md border border-white/20 transition-colors cursor-pointer"
             >
               <span>JobCraft Dashboard</span>
             </button>
@@ -80,7 +88,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             className="flex items-center gap-2 bg-white hover:bg-[#eef6ff] text-[#0057B8] text-xs font-semibold px-4 py-2 rounded-md shadow-sm transition-all duration-150 cursor-pointer active:scale-98 font-display"
           >
             <span>Create CV</span>
-            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </header>
@@ -94,78 +101,77 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10 pointer-events-none" style={{ background: '#fff', transform: 'translate(30%, -30%)' }} />
         <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full opacity-10 pointer-events-none" style={{ background: '#00AAAA', transform: 'translate(-30%, 30%)' }} />
 
-        <div className="relative max-w-5xl mx-auto text-center">
-          {/* Eyebrow pill */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6 bg-white/15 border border-white/20">
-            <span className="text-xs font-medium text-white uppercase tracking-widest">
-              Professional CV Builder
-            </span>
-          </div>
+        <div className="relative max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center text-left">
+          {/* Left column: copy */}
+          <div>
+            {/* Eyebrow pill */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6 bg-white/15 border border-white/20">
+              <span className="text-xs font-semibold text-white tracking-wide">
+                🇰🇭 Built for Cambodian Job Seekers
+              </span>
+            </div>
 
-          {/* Heading */}
-          <h1 className="text-4xl md:text-5xl lg:text-[54px] font-display font-semibold tracking-tight text-white leading-[1.15] mb-5">
-            Make a <span style={{ color: '#7dd3fc' }}>professional CV</span><br />in 3 simple steps
-          </h1>
+            {/* Heading */}
+            <h1 className="text-4xl md:text-5xl lg:text-[54px] font-display font-extrabold tracking-tight text-white leading-[1.1] mb-5">
+              Build Your<br />
+              <span style={{ color: '#7dd3fc' }}>Professional CV</span><br />
+              in Minutes
+            </h1>
 
-          {/* Subtitle */}
-          <p className="text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-9 font-normal" style={{ color: 'rgba(255,255,255,0.85)' }}>
-            Fill in your details, choose from 12 recruiter-certified templates, and download your CV in Word (.doc) or Print PDF.
-          </p>
+            {/* Subtitle */}
+            <p className="text-base md:text-lg max-w-lg leading-relaxed mb-8 font-normal" style={{ color: 'rgba(255,255,255,0.85)' }}>
+              Create a standout CV tailored for Cambodia's job market. Free, fast, and designed to get you hired.
+            </p>
 
-          {/* 3 Steps Flow */}
-          <div className="flex items-center justify-center max-w-xl mx-auto mb-9 relative">
-            <div className="grid grid-cols-3 w-full gap-4 relative z-10">
-              {/* Step 1 */}
+            {/* CTA buttons */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => onCreateCV(activeTemplateId)}
+                className="inline-flex items-center justify-center gap-2 bg-white hover:bg-[#eef6ff] text-[#0057B8] text-base font-semibold px-6 py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer active:scale-98 font-display"
+              >
+                <span>🚀 Create My CV — Free</span>
+              </button>
               <button
                 onClick={() => {
                   document.getElementById('template-section')?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="flex flex-col items-center group cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 bg-transparent hover:bg-white/10 text-white text-base font-semibold px-6 py-3.5 rounded-xl border border-white/40 transition-all duration-200 cursor-pointer active:scale-98 font-display"
               >
-                <div className="w-10 h-10 rounded-full bg-white text-[#0057B8] flex items-center justify-center font-bold text-sm shadow-sm mb-2 ring-4 ring-white/10 group-hover:scale-105 transition-all font-display">
-                  1
-                </div>
-                <span className="text-xs font-medium text-white/90 text-center group-hover:text-white">Choose a template</span>
-              </button>
-
-              {/* Step 2 */}
-              <button
-                onClick={() => onCreateCV(activeTemplateId)}
-                className="flex flex-col items-center group cursor-pointer"
-              >
-                <div className="w-10 h-10 rounded-full bg-white text-[#0057B8] flex items-center justify-center font-bold text-sm shadow-sm mb-2 ring-4 ring-white/10 group-hover:scale-105 transition-all font-display">
-                  2
-                </div>
-                <span className="text-xs font-medium text-white/90 text-center group-hover:text-white">Fill in your details</span>
-              </button>
-
-              {/* Step 3 */}
-              <button
-                onClick={() => onCreateCV(activeTemplateId)}
-                className="flex flex-col items-center group cursor-pointer"
-              >
-                <div className="w-10 h-10 rounded-full bg-white text-[#0057B8] flex items-center justify-center font-bold text-sm shadow-sm mb-2 ring-4 ring-white/10 group-hover:scale-105 transition-all font-display">
-                  3
-                </div>
-                <span className="text-xs font-medium text-white/90 text-center group-hover:text-white">Download your CV</span>
+                <span>👁 Preview Example</span>
               </button>
             </div>
-
-            {/* Connecting line */}
-            <div className="absolute top-5 left-1/6 right-1/6 h-[2px] bg-white/25 -translate-y-1/2 z-0" />
+            <p className="mt-4 text-sm" style={{ color: 'rgba(255,255,255,0.65)' }}>No sign-up required · 100% free · Download as PDF</p>
           </div>
 
-          {/* Primary Call to Action Button */}
-          <div className="flex justify-center">
-            <button
-              onClick={() => onCreateCV(activeTemplateId)}
-              className="group inline-flex items-center justify-center gap-3 bg-white hover:bg-[#eef6ff] text-[#0057B8] text-base font-semibold px-8 py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer active:scale-98 font-display"
-            >
-              <span>Create CV — Free</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
+          {/* Right column: CV preview card mockup */}
+          <div className="flex justify-center md:justify-end">
+            <div className="w-full max-w-[300px] bg-white rounded-2xl shadow-2xl overflow-hidden rotate-1">
+              <div className="px-6 py-6 text-center" style={{ background: '#0057B8' }}>
+                <div className="w-14 h-14 mx-auto rounded-full bg-white/25 flex items-center justify-center text-white font-bold text-lg mb-3">
+                  SM
+                </div>
+                <p className="text-white font-semibold text-base font-display">Sopheak Meas</p>
+                <p className="text-white/80 text-sm">Software Engineer</p>
+              </div>
+              <div className="px-6 py-5 space-y-5">
+                <div>
+                  <p className="text-[11px] font-bold tracking-wide mb-2" style={{ color: '#0057B8' }}>WORK EXPERIENCE</p>
+                  <div className="h-1.5 bg-slate-200 rounded-full mb-1.5 w-full" />
+                  <div className="h-1.5 bg-slate-200 rounded-full w-4/5" />
+                </div>
+                <div>
+                  <p className="text-[11px] font-bold tracking-wide mb-2" style={{ color: '#0057B8' }}>EDUCATION</p>
+                  <div className="h-1.5 bg-slate-200 rounded-full mb-1.5 w-full" />
+                  <div className="h-1.5 bg-slate-200 rounded-full w-3/5" />
+                </div>
+                <div>
+                  <p className="text-[11px] font-bold tracking-wide mb-2" style={{ color: '#0057B8' }}>SKILLS</p>
+                  <div className="h-1.5 bg-slate-200 rounded-full mb-1.5 w-full" />
+                  <div className="h-1.5 bg-slate-200 rounded-full w-2/3" />
+                </div>
+              </div>
+            </div>
           </div>
-          <p className="mt-4 text-sm" style={{ color: 'rgba(255,255,255,0.65)' }}>No sign-up required · 100% free · Download as PDF or Word</p>
         </div>
       </section>
 
