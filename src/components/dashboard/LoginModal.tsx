@@ -25,7 +25,7 @@ import { isDeviceBlocked, recordUserDevice } from '../../firebase/cvService';
 import { getDeviceId, getBrowserFingerprint } from '../../utils/deviceId';
 
 const BLOCKED_MESSAGE =
-  "This device has been blocked from accessing JobCraft. If you believe this is a mistake, please contact support.";
+  "This device has been blocked from accessing JobifyCV. If you believe this is a mistake, please contact support.";
 
 /**
  * Checks the device block list. If blocked, immediately signs the just-authenticated
@@ -198,7 +198,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
             </div>
             <div>
               <h2 className="text-sm font-bold text-slate-900">
-                {currentUser ? 'Firebase Account' : 'Sign In to JobCraft ✨'}
+                {currentUser ? 'Firebase Account' : 'Sign In to JobifyCV ✨'}
               </h2>
               <p className="text-[11px] text-slate-500">
                 {currentUser ? 'Cloud Sync Active' : 'Cloud Sync & Multi-Device Storage'}
@@ -233,7 +233,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                 )}
                 <div className="min-w-0 flex-1">
                   <div className="text-sm font-bold text-slate-900 truncate">
-                    {currentUser.displayName || 'JobCraft Member'}
+                    {currentUser.displayName || 'JobifyCV Member'}
                   </div>
                   <div className="text-xs text-slate-500 truncate">{currentUser.email}</div>
                   <div className="flex items-center gap-1.5 text-[10px] text-emerald-600 font-semibold mt-1">
