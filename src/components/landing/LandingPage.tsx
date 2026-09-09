@@ -396,7 +396,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   </div>
 
                   <div className="w-full">
-                    <TemplateCardThumbnail templateId={tmpl.id} />
+                    <TemplateCardThumbnail templateId={tmpl.id} primaryColor={tmpl.primaryColor} accentColor={tmpl.accentColor} />
                   </div>
                   <div className="mt-2.5 flex flex-col gap-1 w-full">
                     <div className="flex items-center justify-between gap-1">
