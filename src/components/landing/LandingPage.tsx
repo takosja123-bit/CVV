@@ -53,18 +53,19 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       <header className="w-full text-white px-6 py-3 flex items-center justify-between sticky top-0 z-30 shadow-sm" style={{ background: '#0057B8', borderBottom: '1px solid #003d82' }}>
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="flex items-center gap-2.5 cursor-pointer"
+          className="flex items-center gap-3 cursor-pointer group"
         >
           <img
             src="/jobify-logo.png"
             alt="Jobify"
-            className="h-11 w-11 rounded-xl shadow-sm shrink-0 object-cover"
+            className="h-11 w-11 rounded-xl shadow-sm ring-1 ring-white/15 shrink-0 object-cover group-hover:scale-105 transition-transform"
           />
-          <div className="flex items-baseline gap-1.5">
-            <span className="text-base font-extrabold tracking-tight text-white font-display leading-none">
+          <div className="flex items-center gap-2">
+            <span className="text-lg font-extrabold tracking-tight text-white font-display leading-none">
               CV
             </span>
-            <span className="hidden sm:inline text-[11px] font-medium text-white/70 tracking-wide leading-none pl-1.5 border-l border-white/25">
+            <span className="hidden sm:inline w-px h-4 bg-white/25" />
+            <span className="hidden sm:inline text-[11px] font-semibold text-white/70 tracking-[0.12em] uppercase leading-none">
               Cambodia
             </span>
           </div>
