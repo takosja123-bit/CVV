@@ -19,6 +19,13 @@ import { TemplateSageSidebar } from './TemplateSageSidebar';
 import { TemplateATSClassic } from './TemplateATSClassic';
 import { TemplateATSModern } from './TemplateATSModern';
 import { TemplateATSExecutive } from './TemplateATSExecutive';
+import { TemplateN } from './TemplateN';
+import { TemplateO } from './TemplateO';
+import { TemplateP } from './TemplateP';
+import { TemplateQ } from './TemplateQ';
+import { TemplateR } from './TemplateR';
+import { TemplateS } from './TemplateS';
+import { TemplateT } from './TemplateT';
 
 interface TemplateDispatcherProps {
   templateId: TemplateId;
@@ -93,6 +100,27 @@ export const TemplateDispatcher: React.FC<TemplateDispatcherProps> = ({
 
     case 'template-sage-sidebar':
       return <TemplateSageSidebar data={safeData} primaryColor={primaryColor || '#67917f'} />;
+
+    case 'template-n':
+      return <TemplateN data={safeData} primaryColor={primaryColor || '#334155'} />;
+
+    case 'template-o':
+      return <TemplateO data={safeData} primaryColor={primaryColor || '#4338ca'} />;
+
+    case 'template-p':
+      return <TemplateP data={safeData} primaryColor={primaryColor || '#1f2937'} />;
+
+    case 'template-q':
+      return <TemplateQ data={safeData} primaryColor={primaryColor || '#78350f'} />;
+
+    case 'template-r':
+      return <TemplateR data={safeData} primaryColor={primaryColor || '#be123c'} />;
+
+    case 'template-s':
+      return <TemplateS data={safeData} primaryColor={primaryColor || '#0ea5e9'} />;
+
+    case 'template-t':
+      return <TemplateT data={safeData} primaryColor={primaryColor || '#0f766e'} />;
 
     default:
       return <TemplateB data={safeData} primaryColor={primaryColor || '#1e3a5f'} />;
