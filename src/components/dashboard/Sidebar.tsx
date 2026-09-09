@@ -145,22 +145,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <div className="text-[10px] text-slate-400">12 ATS-friendly templates</div>
                   </div>
                 </button>
-
-                <button
-                  onClick={() => {
-                    setIsNewMenuOpen(false);
-                    onNewJob();
-                  }}
-                  className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-[#00AAAA]/20 text-slate-200 hover:text-white flex items-center gap-3 transition-colors cursor-pointer group mt-0.5"
-                >
-                  <div className="w-7 h-7 rounded-md bg-[#00AAAA]/15 text-[#5eead4] flex items-center justify-center shrink-0 group-hover:bg-[#00AAAA]/25">
-                    <Briefcase className="w-4 h-4" />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="text-xs font-semibold">Log Application</div>
-                    <div className="text-[10px] text-slate-400">Track an applied role</div>
-                  </div>
-                </button>
               </div>
             </>
           )}
