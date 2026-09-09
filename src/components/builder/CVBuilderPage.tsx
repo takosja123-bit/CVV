@@ -807,7 +807,7 @@ export const CVBuilderPage: React.FC<CVBuilderPageProps> = ({
               <div>
                 <h3 className="text-base font-bold">Choose CV Template</h3>
                 <p className="text-xs text-slate-300">
-                  Select an authentic JobCraft layout. Your data will instantly adapt.
+                  Select an authentic JobifyCV layout. Your data will instantly adapt.
                 </p>
               </div>
               <button
