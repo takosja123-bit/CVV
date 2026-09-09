@@ -92,7 +92,7 @@ export const UserUpgradeModal: React.FC<UserUpgradeModalProps> = ({
                   Requesting Account
                 </div>
                 <div className="font-semibold text-slate-800">{userEmail || 'Guest User'}</div>
-                <div className="text-[11px] text-slate-500">{userName || 'JobCraft Member'}</div>
+                <div className="text-[11px] text-slate-500">{userName || 'JobifyCV Member'}</div>
               </div>
               <div className="text-right">
                 <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
