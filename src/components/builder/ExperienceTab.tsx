@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Experience, CVStyleOptions } from '../../types';
 import {
   Plus,
@@ -24,6 +24,7 @@ interface ExperienceTabProps {
   activePopover?: string | null;
   onTogglePopover?: (section: string) => void;
   onClosePopover?: () => void;
+  focusEntryId?: string | null;
 }
 
 export const ExperienceTab: React.FC<ExperienceTabProps> = ({
@@ -34,10 +35,27 @@ export const ExperienceTab: React.FC<ExperienceTabProps> = ({
   activePopover: externalActivePopover,
   onTogglePopover: externalTogglePopover,
   onClosePopover: externalClosePopover,
+  focusEntryId,
 }) => {
   const safeExperiences = Array.isArray(experiences) ? experiences : [];
   const [expandedId, setExpandedId] = useState<string | null>(safeExperiences[0]?.id || null);
   const [internalPopover, setInternalPopover] = useState<string | null>(null);
+  const [highlightId, setHighlightId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (focusEntryId) {
+      setExpandedId(focusEntryId);
+      setHighlightId(focusEntryId);
+      const scrollTimer = setTimeout(() => {
+        document.getElementById(`exp-entry-${focusEntryId}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 60);
+      const clearTimer = setTimeout(() => setHighlightId(null), 1800);
+      return () => {
+        clearTimeout(scrollTimer);
+        clearTimeout(clearTimer);
+      };
+    }
+  }, [focusEntryId]);
 
   const activePopover = externalActivePopover !== undefined ? externalActivePopover : internalPopover;
   const togglePopover = (key: string) => {
@@ -257,7 +275,10 @@ export const ExperienceTab: React.FC<ExperienceTabProps> = ({
           return (
             <div
               key={exp.id}
-              className="bg-white border border-slate-200 rounded-xl shadow-2xs overflow-hidden transition-all"
+              id={`exp-entry-${exp.id}`}
+              className={`bg-white border rounded-xl shadow-2xs overflow-hidden transition-all ${
+                highlightId === exp.id ? 'ring-2 ring-[#0057B8] border-[#0057B8]' : 'border-slate-200'
+              }`}
             >
               {/* Accordion Header Bar */}
               <div
