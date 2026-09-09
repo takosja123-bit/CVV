@@ -150,7 +150,7 @@ export default function App() {
           await logoutUser();
           setAuthUser(null);
           setDeviceBlockedMessage(
-            'This device has been blocked from accessing JobCraft. If you believe this is a mistake, please contact support.'
+            'This device has been blocked from accessing JobifyCV. If you believe this is a mistake, please contact support.'
           );
           return;
         }
