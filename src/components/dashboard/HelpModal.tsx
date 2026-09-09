@@ -18,7 +18,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
               <HelpCircle className="w-4 h-4" />
             </div>
             <h2 className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
-              <span>Job</span><span className="text-blue-600">Craft</span> Guide & Help ✨
+              <span>Jobify</span><span className="text-blue-600">CV</span> Guide & Help ✨
             </h2>
           </div>
           <button
