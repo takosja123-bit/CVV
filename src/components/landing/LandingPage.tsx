@@ -51,15 +51,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({
     <div className="min-h-screen bg-[#F6F5F2] text-[#1E293B] font-sans-ui flex flex-col">
       {/* Top Navbar */}
       <header className="w-full text-white px-6 py-3 flex items-center justify-between sticky top-0 z-30 shadow-sm" style={{ background: '#0057B8', borderBottom: '1px solid #003d82' }}>
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-[#0057B8] font-bold shadow-sm">
-            <span className="text-sm select-none leading-none">✨</span>
+        <div className="flex items-center gap-2.5">
+          <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-sm shrink-0">
+            <svg viewBox="0 0 24 24" className="w-5.5 h-5.5" xmlns="http://www.w3.org/2000/svg">
+              <rect x="8.5" y="2.8" width="7" height="4.2" rx="1.4" fill="none" stroke="#0057B8" strokeWidth="1.7" />
+              <rect x="2.8" y="6.6" width="18.4" height="14.6" rx="3.4" fill="#0057B8" />
+              <text x="12" y="17.4" textAnchor="middle" fontFamily="Arial, sans-serif" fontWeight="800" fontSize="10.5" fill="#ffffff">J</text>
+            </svg>
           </div>
-          <div>
-            <span className="text-sm font-semibold tracking-wide text-white flex items-center gap-1.5 font-display">
-              <span>Jobify</span>
-              <span style={{ color: '#7dd3fc' }} className="font-bold">CV</span>
-              <span className="text-xs font-normal text-white/80 ml-1">Cambodia</span>
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-base font-extrabold tracking-tight text-white font-display leading-none">
+              Jobify<span style={{ color: '#7dd3fc' }}>CV</span>
+            </span>
+            <span className="hidden sm:inline text-[11px] font-medium text-white/70 tracking-wide leading-none pl-1.5 border-l border-white/25">
+              Cambodia
             </span>
           </div>
         </div>
