@@ -153,7 +153,7 @@ export const TemplateTealGrid: React.FC<TemplateProps> = ({ data, primaryColor =
 
       {/* Footer watermark matching screenshot */}
       <div className="pt-8 text-center text-[9.5px] text-slate-400 font-sans tracking-wide">
-        © JobCraft
+        © JobifyCV
       </div>
     </div>
   );
