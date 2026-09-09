@@ -45,7 +45,7 @@ export const OverviewDashboardView: React.FC<OverviewDashboardViewProps> = ({
       {/* Top Header */}
       <div className="px-8 pt-8 pb-6 bg-white border-b border-slate-200">
         <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-          Welcome to <span>Job</span><span className="text-[#0057B8]">Craft</span>
+          Welcome to <span>Jobify</span><span className="text-[#0057B8]">CV</span>
           <span className="text-xl">✨</span>
         </h1>
         <p className="text-xs text-slate-500 mt-1">
