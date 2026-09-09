@@ -211,7 +211,7 @@ export const TemplateE: React.FC<TemplateProps> = ({ data, primaryColor = '#8813
 
       {/* Footer watermark matching screenshot */}
       <div className="pb-6 text-center text-[9.5px] text-slate-400 font-sans tracking-wide">
-        © JobCraft
+        © JobifyCV
       </div>
     </div>
   );
