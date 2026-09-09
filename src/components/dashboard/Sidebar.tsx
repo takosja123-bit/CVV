@@ -81,16 +81,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div className="h-16 px-5 flex items-center justify-between border-b border-slate-800/80">
         <button
           onClick={() => onSelectSection('resumes')}
-          className="flex items-center gap-2.5 text-white font-bold text-lg tracking-tight hover:opacity-90 transition-opacity group cursor-pointer"
+          className="flex items-center gap-3 text-white font-bold text-lg tracking-tight hover:opacity-90 transition-opacity group cursor-pointer"
         >
           <img
             src="/jobify-logo.png"
             alt="Jobify"
-            className="w-9 h-9 rounded-lg shadow-md shadow-black/30 group-hover:scale-105 transition-transform shrink-0 object-cover"
+            className="w-9 h-9 rounded-lg shadow-md shadow-black/30 ring-1 ring-white/10 group-hover:scale-105 transition-transform shrink-0 object-cover"
           />
-          <div className="flex items-baseline gap-1">
-            <span style={{ color: '#38bdf8' }}>CV</span>
-            <span className="ml-1 text-[10px] font-medium text-slate-400 tracking-wide">Cambodia</span>
+          <div className="flex items-center gap-2">
+            <span className="text-lg font-extrabold tracking-tight leading-none" style={{ color: '#38bdf8' }}>CV</span>
+            <span className="w-px h-3.5 bg-slate-700" />
+            <span className="text-[10px] font-semibold text-slate-400 tracking-[0.12em] uppercase leading-none">Cambodia</span>
           </div>
         </button>
 
