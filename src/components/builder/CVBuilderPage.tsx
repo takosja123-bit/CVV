@@ -78,6 +78,8 @@ export const CVBuilderPage: React.FC<CVBuilderPageProps> = ({
   userEmail,
 }) => {
   const [activeTab, setActiveTab] = useState<BuilderTab>('personal');
+  const [focusExperienceId, setFocusExperienceId] = useState<string | null>(null);
+  const [focusEducationId, setFocusEducationId] = useState<string | null>(null);
   const [activeLayoutPopover, setActiveLayoutPopover] = useState<string | null>(null);
   const [customPrimaryColor, setCustomPrimaryColor] = useState<string | null>(null);
   const [zoomLevel, setZoomLevel] = useState<number>(100);
@@ -114,6 +116,90 @@ export const CVBuilderPage: React.FC<CVBuilderPageProps> = ({
       onChangeData(newData);
     },
     [historyIndex, onChangeData]
+  );
+
+  // --- Double-click on preview text -> jump to its location in the edit form ---
+  const findPreviewJumpTarget = useCallback(
+    (rawText: string): { tab: BuilderTab; experienceId?: string; educationId?: string } | null => {
+      const text = rawText.trim();
+      if (!text || text.length < 2) return null;
+      const norm = (s?: string) => (s || '').trim();
+      const matches = (field?: string) => {
+        const f = norm(field);
+        if (!f) return false;
+        return f === text || text.includes(f) || f.includes(text);
+      };
+
+      const personalFields = [
+        data.personal.fullName,
+        data.personal.jobTitle,
+        data.personal.summary,
+        data.personal.email,
+        data.personal.phone,
+        data.personal.address,
+        data.personal.website,
+        data.personal.github,
+        data.personal.linkedin,
+      ];
+      if (personalFields.some(matches)) {
+        return { tab: 'personal' };
+      }
+
+      for (const exp of data.experiences || []) {
+        const fields = [exp.jobTitle, exp.company, exp.location, ...(exp.bullets || [])];
+        if (fields.some(matches)) {
+          return { tab: 'experience', experienceId: exp.id };
+        }
+      }
+
+      for (const edu of data.education || []) {
+        const fields = [edu.institution, edu.degree, edu.location, edu.details];
+        if (fields.some(matches)) {
+          return { tab: 'education', educationId: edu.id };
+        }
+      }
+
+      const skillNames = (data.skills || []).map((s) => (typeof s === 'string' ? s : s.name));
+      const langNames = (data.languages || []).map((l) => (typeof l === 'string' ? l : l.name));
+      if ([...skillNames, ...langNames].some(matches)) {
+        return { tab: 'skills' };
+      }
+
+      const projFields = (data.projects || []).flatMap((p) => [p.title, p.role, p.description]);
+      const certFields = (data.certifications || []).flatMap((c) => [c.name, c.issuer]);
+      const achFields = (data.achievements || []).flatMap((a) => [a.title, a.description]);
+      const refFields = (data.references || []).flatMap((r) => [r.name, r.title, r.company]);
+      if ([...projFields, ...certFields, ...achFields, ...refFields].some(matches)) {
+        return { tab: 'projects' };
+      }
+
+      return null;
+    },
+    [data]
+  );
+
+  const handlePreviewDoubleClick = useCallback(
+    (e: React.MouseEvent) => {
+      let el = e.target as HTMLElement | null;
+      let text = '';
+      for (let i = 0; i < 4 && el; i++) {
+        const t = (el.textContent || '').trim();
+        if (t && t.length >= 2 && t.length <= 400) {
+          text = t;
+          break;
+        }
+        el = el.parentElement;
+      }
+      if (!text) return;
+
+      const result = findPreviewJumpTarget(text);
+      if (!result) return;
+
+      setActiveTab(result.tab);
+      setFocusExperienceId(result.tab === 'experience' ? result.experienceId || null : null);
+      setFocusEducationId(result.tab === 'education' ? result.educationId || null : null);
+    },
+    [findPreviewJumpTarget]
   );
 
   const canUndo = historyIndex > 0;
@@ -492,6 +578,7 @@ export const CVBuilderPage: React.FC<CVBuilderPageProps> = ({
                 activePopover={activeLayoutPopover}
                 onTogglePopover={(key) => setActiveLayoutPopover((prev) => (prev === key ? null : key))}
                 onClosePopover={() => setActiveLayoutPopover(null)}
+                focusEntryId={focusExperienceId}
               />
             )}
 
@@ -504,6 +591,7 @@ export const CVBuilderPage: React.FC<CVBuilderPageProps> = ({
                 activePopover={activeLayoutPopover}
                 onTogglePopover={(key) => setActiveLayoutPopover((prev) => (prev === key ? null : key))}
                 onClosePopover={() => setActiveLayoutPopover(null)}
+                focusEntryId={focusEducationId}
               />
             )}
 
@@ -699,6 +787,7 @@ export const CVBuilderPage: React.FC<CVBuilderPageProps> = ({
           {/* CV Document Rendering Container */}
           <div className="flex-1 p-4 md:p-8 flex justify-center items-start overflow-auto">
             <div
+              onDoubleClick={handlePreviewDoubleClick}
               className={`cv-document-sheet transition-transform duration-150 origin-top shadow-xl rounded-sm w-full bg-white ${
                 pageSize === 'A4' ? 'max-w-[794px] min-h-[1123px]' : 'max-w-[816px] min-h-[1056px]'
               }`}
@@ -807,7 +896,7 @@ export const CVBuilderPage: React.FC<CVBuilderPageProps> = ({
               <div>
                 <h3 className="text-base font-bold">Choose CV Template</h3>
                 <p className="text-xs text-slate-300">
-                  Select an authentic JobifyCV layout. Your data will instantly adapt.
+                  Select an authentic JobCraft layout. Your data will instantly adapt.
                 </p>
               </div>
               <button
