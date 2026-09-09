@@ -351,7 +351,7 @@ export const JobseekerDashboard: React.FC<JobseekerDashboardProps> = ({
       id: `sub-job-${Date.now()}`,
       userId: user?.email || 'guest',
       userEmail: user?.email || 'user@example.com',
-      userName: user?.name || 'JobCraft Contributor',
+      userName: user?.name || 'JobifyCV Contributor',
       type: 'job_posting',
       title: `Job Posting Proposal: ${proposalData.title || 'New Vacancy'} at ${proposalData.company || 'Company'}`,
       details: proposalData.description || 'Employer vacancy submission submitted by user.',
@@ -376,7 +376,7 @@ export const JobseekerDashboard: React.FC<JobseekerDashboardProps> = ({
       id: `sub-upgrade-${Date.now()}`,
       userId: user?.email || 'guest',
       userEmail: user?.email || 'user@example.com',
-      userName: user?.name || 'JobCraft Member',
+      userName: user?.name || 'JobifyCV Member',
       type: targetTier === 'Premium Plan' ? 'premium_upgrade' : 'pro_upgrade',
       title: `Plan Upgrade Request: ${targetTier}`,
       details: message,
@@ -558,7 +558,7 @@ export const JobseekerDashboard: React.FC<JobseekerDashboardProps> = ({
         `<b>CV Document:</b> ${cData.candidateCvName || 'Attached in Admin Portal'}\n\n` +
         `<b>Candidate Note / Message:</b>\n<i>${cData.message || 'None attached'}</i>\n\n` +
         `<b>Review Status:</b> ${sub.status.toUpperCase()}\n` +
-        `<i>Forwarded from JobCraft Admin Dashboard</i>`;
+        `<i>Forwarded from JobifyCV Admin Dashboard</i>`;
     } else {
       messageHtml = `<b>📢 [TAK TEMPEST ADMIN FORWARD]</b>\n\n` +
         `<b>Title:</b> ${sub.title}\n` +
@@ -566,7 +566,7 @@ export const JobseekerDashboard: React.FC<JobseekerDashboardProps> = ({
         `<b>Status:</b> ${sub.status.toUpperCase()}\n` +
         `<b>Details:</b>\n${sub.details}\n\n` +
         (sub.data?.applyUrl ? `🔗 <b>Link:</b> ${sub.data.applyUrl}\n` : '') +
-        `<b>Sent via:</b> JobCraft Admin Dashboard`;
+        `<b>Sent via:</b> JobifyCV Admin Dashboard`;
     }
 
     const res = await sendTelegramNotification(telegramConfig, messageHtml);
@@ -629,7 +629,7 @@ export const JobseekerDashboard: React.FC<JobseekerDashboardProps> = ({
 
   const handleTestTelegramBot = async (): Promise<{ success: boolean; message?: string }> => {
     const testMessage = `<b>🎉 Telegram Bot Connected!</b>\n\n` +
-      `Your bot is successfully paired with the <b>Tak Tempest JobCraft Admin Hub</b>.\n` +
+      `Your bot is successfully paired with the <b>Tak Tempest JobifyCV Admin Hub</b>.\n` +
       `Admin Account: <code>${ADMIN_EMAIL}</code>\n` +
       `Time: ${new Date().toLocaleString()}`;
 
@@ -953,7 +953,7 @@ export const JobseekerDashboard: React.FC<JobseekerDashboardProps> = ({
         isOpen={isUserUpgradeModalOpen}
         onClose={() => setIsUserUpgradeModalOpen(false)}
         userEmail={user?.email || 'user@example.com'}
-        userName={user?.name || 'JobCraft Member'}
+        userName={user?.name || 'JobifyCV Member'}
         currentTier={currentPlanTier}
         onSubmitUpgradeRequest={handleUserSubmitUpgradeRequest}
       />
