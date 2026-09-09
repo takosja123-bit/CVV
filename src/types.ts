@@ -128,6 +128,13 @@ export type TemplateId =
   | 'template-black-badge' // Sam Hill Archetype
   | 'template-teal-grid'   // Peter Madison Archetype
   | 'template-sage-sidebar'// Joanna Brown Archetype
+  | 'template-n' // Corporate Slate Two-Column
+  | 'template-o' // Indigo Timeline
+  | 'template-p' // Plain Charcoal ATS Compact
+  | 'template-q' // Ivory Elegant Serif
+  | 'template-r' // Bold Crimson Header
+  | 'template-s' // Graphite Tech Sidebar
+  | 'template-t' // Minimal Two-Tone Slate
   // Legacy aliases for backward compatibility
   | 'classic'
   | 'modern'
