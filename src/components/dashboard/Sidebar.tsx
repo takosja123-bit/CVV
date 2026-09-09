@@ -89,7 +89,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             className="w-9 h-9 rounded-lg shadow-md shadow-black/30 ring-1 ring-white/10 group-hover:scale-105 transition-transform shrink-0 object-cover"
           />
           <div className="flex items-center gap-2">
-            <span className="text-lg font-extrabold tracking-tight leading-none" style={{ color: '#38bdf8' }}>CV</span>
+            <span className="text-lg font-extrabold tracking-tight leading-none text-white">Jobify<span style={{ color: '#38bdf8' }}>CV</span></span>
             <span className="w-px h-3.5 bg-slate-700" />
             <span className="text-[10px] font-semibold text-slate-400 tracking-[0.12em] uppercase leading-none">Cambodia</span>
           </div>
