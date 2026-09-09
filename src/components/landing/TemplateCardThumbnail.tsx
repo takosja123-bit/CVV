@@ -3,9 +3,11 @@ import { TemplateId } from '../../types';
 
 interface TemplateCardThumbnailProps {
   templateId: TemplateId;
+  primaryColor?: string;
+  accentColor?: string;
 }
 
-export const TemplateCardThumbnail: React.FC<TemplateCardThumbnailProps> = ({ templateId }) => {
+export const TemplateCardThumbnail: React.FC<TemplateCardThumbnailProps> = ({ templateId, primaryColor, accentColor }) => {
   return (
     <div className="w-full h-24 bg-white rounded-t border-b border-slate-100 overflow-hidden relative select-none text-[6px] leading-[8px] pointer-events-none">
       {/* Harvard ATS Standard */}
@@ -322,6 +324,28 @@ export const TemplateCardThumbnail: React.FC<TemplateCardThumbnailProps> = ({ te
               <div className="w-6 h-0.5 bg-slate-800" />
               <div className="w-full h-0.5 bg-slate-100" />
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Generic fallback thumbnail for newer templates (N-T, and the 3 archetype templates) */}
+      {![
+        'template-ats-classic', 'template-ats-modern', 'template-ats-executive',
+        'template-b', 'classic', 'template-c', 'template-d', 'modern', 'template-e', 'red',
+        'template-f', 'template-g', 'minimalist', 'template-h', 'template-i', 'template-j',
+        'template-k', 'template-l', 'template-m', 'teal', 'executive',
+      ].includes(templateId) && (
+        <div className="w-full h-full flex flex-col">
+          <div className="p-1.5" style={{ backgroundColor: primaryColor || '#334155' }}>
+            <div className="w-10 h-1 bg-white/90 rounded-xs mb-0.5" />
+            <div className="w-6 h-0.5 rounded-xs" style={{ backgroundColor: accentColor || 'rgba(255,255,255,0.7)' }} />
+          </div>
+          <div className="flex-1 p-1.5 space-y-1">
+            <div className="w-8 h-0.5 rounded-xs" style={{ backgroundColor: primaryColor || '#334155' }} />
+            <div className="w-full h-0.5 bg-slate-200 rounded-xs" />
+            <div className="w-5/6 h-0.5 bg-slate-200 rounded-xs" />
+            <div className="w-6 h-0.5 rounded-xs mt-1" style={{ backgroundColor: primaryColor || '#334155' }} />
+            <div className="w-full h-0.5 bg-slate-200 rounded-xs" />
           </div>
         </div>
       )}
