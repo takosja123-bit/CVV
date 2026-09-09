@@ -67,7 +67,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         <div className="flex items-center gap-3">
           <button
             onClick={() => {
-              document.getElementById('template-section')?.scrollIntoView({ behavior: 'smooth' });
+              document.getElementById('how-it-works-section')?.scrollIntoView({ behavior: 'smooth' });
             }}
             className="hidden sm:inline-flex text-xs font-semibold text-white/90 hover:text-white px-2 py-2 transition-colors cursor-pointer"
           >
@@ -222,7 +222,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </section>
 
       {/* How It Works Section */}
-      <section className="py-16 px-4 bg-[#f4f7fb] w-full">
+      <section id="how-it-works-section" className="py-16 px-4 bg-[#f4f7fb] w-full scroll-mt-20">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-display font-bold text-slate-900">
             How It Works
