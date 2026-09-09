@@ -175,6 +175,114 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </section>
 
+      {/* Why Jobify CV Section */}
+      <section className="py-16 px-4 max-w-6xl mx-auto w-full">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-slate-900">
+            Why Jobify CV?
+          </h2>
+          <p className="text-sm md:text-base text-slate-600 mt-2">
+            Everything you need to land your dream job in Cambodia
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="bg-[#f6f8fb] rounded-xl border border-slate-200/70 p-6">
+            <div className="text-3xl mb-4">🎯</div>
+            <h3 className="text-base font-bold text-slate-900 mb-2">Job-Ready Templates</h3>
+            <p className="text-sm text-slate-600 leading-relaxed">
+              Designed for Cambodia's top employers — banking, NGOs, tech, and more.
+            </p>
+          </div>
+
+          <div className="bg-[#f6f8fb] rounded-xl border border-slate-200/70 p-6">
+            <div className="text-3xl mb-4">⚡</div>
+            <h3 className="text-base font-bold text-slate-900 mb-2">Build in Minutes</h3>
+            <p className="text-sm text-slate-600 leading-relaxed">
+              Fill in your details and get a polished CV instantly. No design skills needed.
+            </p>
+          </div>
+
+          <div className="bg-[#f6f8fb] rounded-xl border border-slate-200/70 p-6">
+            <div className="text-3xl mb-4">🎨</div>
+            <h3 className="text-base font-bold text-slate-900 mb-2">3 Professional Layouts</h3>
+            <p className="text-sm text-slate-600 leading-relaxed">
+              Modern, Classic, and Minimal templates with 8 color schemes to match your industry.
+            </p>
+          </div>
+
+          <div className="bg-[#f6f8fb] rounded-xl border border-slate-200/70 p-6">
+            <div className="text-3xl mb-4">📄</div>
+            <h3 className="text-base font-bold text-slate-900 mb-2">PDF Download</h3>
+            <p className="text-sm text-slate-600 leading-relaxed">
+              One-click print to PDF. Send to employers or upload to Jobify Cambodia directly.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-16 px-4 bg-[#f4f7fb] w-full">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-slate-900">
+            How It Works
+          </h2>
+          <p className="text-sm md:text-base text-slate-600 mt-2">
+            3 simple steps to your perfect CV
+          </p>
+        </div>
+
+        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-2 mb-10">
+          {/* Step 01 */}
+          <div className="flex flex-col items-center text-center max-w-[220px]">
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-extrabold text-lg mb-4" style={{ background: '#0057B8' }}>
+              01
+            </div>
+            <h3 className="text-base font-bold text-slate-900 mb-1">Fill Your Info</h3>
+            <p className="text-sm text-slate-600 leading-relaxed">
+              Enter your personal details, experience, and education.
+            </p>
+          </div>
+
+          <div className="hidden sm:block w-16 h-[2px] bg-slate-300 self-start mt-7" />
+
+          {/* Step 02 */}
+          <div className="flex flex-col items-center text-center max-w-[220px]">
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-extrabold text-lg mb-4" style={{ background: '#0057B8' }}>
+              02
+            </div>
+            <h3 className="text-base font-bold text-slate-900 mb-1">Choose Template</h3>
+            <p className="text-sm text-slate-600 leading-relaxed">
+              Pick a layout and color that fits your target role.
+            </p>
+          </div>
+
+          <div className="hidden sm:block w-16 h-[2px] bg-slate-300 self-start mt-7" />
+
+          {/* Step 03 */}
+          <div className="flex flex-col items-center text-center max-w-[220px]">
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-extrabold text-lg mb-4" style={{ background: '#0057B8' }}>
+              03
+            </div>
+            <h3 className="text-base font-bold text-slate-900 mb-1">Download & Apply</h3>
+            <p className="text-sm text-slate-600 leading-relaxed">
+              Export as PDF and start applying to jobs today.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex justify-center">
+          <button
+            onClick={() => onCreateCV(activeTemplateId)}
+            className="inline-flex items-center gap-2 text-white text-base font-semibold px-8 py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer active:scale-98 font-display"
+            style={{ background: '#0057B8' }}
+          >
+            <span>Start Building My CV</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+      </section>
+
       {/* Choose your template Section */}
       <section id="template-section" className="py-10 max-w-7xl mx-auto w-full scroll-mt-20">
         <div className="text-center px-4 mb-4">
@@ -427,8 +535,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </section>
 
       {/* Footer */}
-      <footer className="mt-auto border-t border-[#dde3ef] py-6 text-center text-xs text-slate-500">
-        <p>© 2026 <span className="font-semibold text-[#0057B8]">JobCraft</span> CV Builder. Built for professional career excellence.</p>
+      <footer className="mt-auto border-t border-[#dde3ef] py-8 text-center text-xs text-slate-500">
+        <p className="text-sm font-bold" style={{ color: '#0057B8' }}>JobifyCV Cambodia</p>
+        <p className="mt-2">Free CV builder for Cambodian job seekers · 🇰🇭 Made with ❤️ for Cambodia</p>
       </footer>
     </div>
   );
