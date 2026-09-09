@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Education, CVStyleOptions } from '../../types';
 import { Plus, Trash2, ChevronDown, ChevronUp, ArrowUp, ArrowDown, GraduationCap } from 'lucide-react';
 import { RichTextEditor } from '../common/RichTextEditor';
@@ -12,6 +12,7 @@ interface EducationTabProps {
   activePopover?: string | null;
   onTogglePopover?: (section: string) => void;
   onClosePopover?: () => void;
+  focusEntryId?: string | null;
 }
 
 export const EducationTab: React.FC<EducationTabProps> = ({
@@ -22,10 +23,27 @@ export const EducationTab: React.FC<EducationTabProps> = ({
   activePopover: externalActivePopover,
   onTogglePopover: externalTogglePopover,
   onClosePopover: externalClosePopover,
+  focusEntryId,
 }) => {
   const safeEducation = Array.isArray(education) ? education : [];
   const [expandedId, setExpandedId] = useState<string | null>(safeEducation[0]?.id || null);
   const [internalPopover, setInternalPopover] = useState<string | null>(null);
+  const [highlightId, setHighlightId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (focusEntryId) {
+      setExpandedId(focusEntryId);
+      setHighlightId(focusEntryId);
+      const scrollTimer = setTimeout(() => {
+        document.getElementById(`edu-entry-${focusEntryId}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 60);
+      const clearTimer = setTimeout(() => setHighlightId(null), 1800);
+      return () => {
+        clearTimeout(scrollTimer);
+        clearTimeout(clearTimer);
+      };
+    }
+  }, [focusEntryId]);
 
   const activePopover = externalActivePopover !== undefined ? externalActivePopover : internalPopover;
   const togglePopover = (key: string) => {
@@ -151,7 +169,10 @@ export const EducationTab: React.FC<EducationTabProps> = ({
           return (
             <div
               key={edu.id}
-              className="bg-white border border-slate-200 rounded-xl shadow-2xs overflow-hidden transition-all"
+              id={`edu-entry-${edu.id}`}
+              className={`bg-white border rounded-xl shadow-2xs overflow-hidden transition-all ${
+                highlightId === edu.id ? 'ring-2 ring-[#0057B8] border-[#0057B8]' : 'border-slate-200'
+              }`}
             >
               <div
                 onClick={() => setExpandedId(isExpanded ? null : edu.id)}
