@@ -62,7 +62,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           />
           <div className="flex items-center gap-2">
             <span className="text-lg font-extrabold tracking-tight text-white font-display leading-none">
-              CV
+              Jobify<span style={{ color: '#7dd3fc' }}>CV</span>
             </span>
             <span className="hidden sm:inline w-px h-4 bg-white/25" />
             <span className="hidden sm:inline text-[11px] font-semibold text-white/70 tracking-[0.12em] uppercase leading-none">
