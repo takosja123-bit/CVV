@@ -52,16 +52,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       {/* Top Navbar */}
       <header className="w-full text-white px-6 py-3 flex items-center justify-between sticky top-0 z-30 shadow-sm" style={{ background: '#0057B8', borderBottom: '1px solid #003d82' }}>
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-sm shrink-0">
-            <svg viewBox="0 0 24 24" className="w-5.5 h-5.5" xmlns="http://www.w3.org/2000/svg">
-              <rect x="8.5" y="2.8" width="7" height="4.2" rx="1.4" fill="none" stroke="#0057B8" strokeWidth="1.7" />
-              <rect x="2.8" y="6.6" width="18.4" height="14.6" rx="3.4" fill="#0057B8" />
-              <text x="12" y="17.4" textAnchor="middle" fontFamily="Arial, sans-serif" fontWeight="800" fontSize="10.5" fill="#ffffff">J</text>
-            </svg>
-          </div>
+          <img
+            src="/jobify-logo.png"
+            alt="Jobify"
+            className="h-11 w-11 rounded-xl shadow-sm shrink-0 object-cover"
+          />
           <div className="flex items-baseline gap-1.5">
             <span className="text-base font-extrabold tracking-tight text-white font-display leading-none">
-              Jobify<span style={{ color: '#7dd3fc' }}>CV</span>
+              CV
             </span>
             <span className="hidden sm:inline text-[11px] font-medium text-white/70 tracking-wide leading-none pl-1.5 border-l border-white/25">
               Cambodia
