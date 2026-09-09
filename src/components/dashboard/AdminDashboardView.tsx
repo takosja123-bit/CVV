@@ -751,7 +751,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({
                             </span>
                           ) : (
                             <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-100 text-slate-700">
-                              JobCraft Member
+                              JobifyCV Member
                             </span>
                           )}
                         </td>
@@ -821,7 +821,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({
             <div>
               <h2 className="text-sm font-bold text-slate-900">Blocked Devices</h2>
               <p className="text-xs text-slate-500">
-                Browsers currently locked out of JobCraft, regardless of which account they try to
+                Browsers currently locked out of JobifyCV, regardless of which account they try to
                 sign into. Unblock removes the entry immediately.
               </p>
             </div>
