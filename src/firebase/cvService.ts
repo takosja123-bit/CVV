@@ -750,7 +750,7 @@ export async function fetchPlatformUsers(): Promise<UserAccountProfile[]> {
     {
       uid: 'user-demo-77',
       email: 'alex.jobcraft@example.com',
-      name: 'Alex JobCraft',
+      name: 'Alex JobifyCV',
       role: 'user',
       planTier: 'Free Plan',
       createdAt: '2026-08-27',
