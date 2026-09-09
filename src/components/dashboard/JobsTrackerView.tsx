@@ -178,7 +178,7 @@ export const JobsTrackerView: React.FC<JobsTrackerViewProps> = ({
                           </p>
                         )}
 
-                        {/* Status Mover Dropdown (Admin only) or Stage Badge (JobCraft Candidate) */}
+                        {/* Status Mover Dropdown (Admin only) or Stage Badge (JobifyCV Candidate) */}
                         <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between">
                           {isAdmin ? (
                             <select
