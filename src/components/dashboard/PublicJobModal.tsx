@@ -173,8 +173,8 @@ export const PublicJobModal: React.FC<PublicJobModalProps> = ({
           description: description.trim(),
           requirements,
           tags,
-          submittedBy: userEmail || 'Anonymous JobCraft User',
-          userName: userName || 'JobCraft Member',
+          submittedBy: userEmail || 'Anonymous JobifyCV User',
+          userName: userName || 'JobifyCV Member',
         });
       }
       onClose();
@@ -204,7 +204,7 @@ export const PublicJobModal: React.FC<PublicJobModalProps> = ({
               </h2>
               <p className="text-[11px] text-slate-500">
                 {isAdmin
-                  ? 'Publish job directly to the public board for JobCraft members'
+                  ? 'Publish job directly to the public board for JobifyCV members'
                   : 'Submit a job opening to the Admin Dashboard for verification'}
               </p>
             </div>
@@ -286,7 +286,7 @@ export const PublicJobModal: React.FC<PublicJobModalProps> = ({
               />
             </div>
             <p className="text-[10px] text-slate-400 mt-1">
-              JobCraft candidates will click this direct link to view the employer's posting and apply on their website.
+              JobifyCV candidates will click this direct link to view the employer's posting and apply on their website.
             </p>
           </div>
 
