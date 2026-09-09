@@ -83,13 +83,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
           onClick={() => onSelectSection('resumes')}
           className="flex items-center gap-2.5 text-white font-bold text-lg tracking-tight hover:opacity-90 transition-opacity group cursor-pointer"
         >
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#0057B8] to-[#00AAAA] flex items-center justify-center text-white shadow-md shadow-black/30 group-hover:scale-105 transition-transform">
-            <span className="text-sm select-none leading-none">✨</span>
+          <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center shadow-md shadow-black/30 group-hover:scale-105 transition-transform shrink-0">
+            <svg viewBox="0 0 24 24" className="w-5 h-5" xmlns="http://www.w3.org/2000/svg">
+              <rect x="8.5" y="2.8" width="7" height="4.2" rx="1.4" fill="none" stroke="#0057B8" strokeWidth="1.7" />
+              <rect x="2.8" y="6.6" width="18.4" height="14.6" rx="3.4" fill="#0057B8" />
+              <text x="12" y="17.4" textAnchor="middle" fontFamily="Arial, sans-serif" fontWeight="800" fontSize="10.5" fill="#ffffff">J</text>
+            </svg>
           </div>
-          <div className="flex items-center">
-            <span className="text-white">Job</span>
-            <span style={{ color: '#38bdf8' }}>Craft</span>
-            <span className="ml-1 text-xs select-none group-hover:rotate-12 transition-transform">💼</span>
+          <div className="flex items-baseline gap-1">
+            <span className="text-white">Jobify</span>
+            <span style={{ color: '#38bdf8' }}>CV</span>
+            <span className="ml-1 text-[10px] font-medium text-slate-400 tracking-wide">Cambodia</span>
           </div>
         </button>
 
