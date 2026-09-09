@@ -124,7 +124,7 @@ export const JobEditModal: React.FC<JobEditModalProps> = ({
               <p className="text-[11px] text-slate-500">
                 {isAdmin
                   ? 'Administrator control: update fields and manage pipeline stages.'
-                  : 'JobCraft applicant read-only view: only administrators can edit pipeline stages.'}
+                  : 'JobifyCV applicant read-only view: only administrators can edit pipeline stages.'}
               </p>
             </div>
           </div>
