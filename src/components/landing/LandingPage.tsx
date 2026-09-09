@@ -51,7 +51,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
     <div className="min-h-screen bg-[#F6F5F2] text-[#1E293B] font-sans-ui flex flex-col">
       {/* Top Navbar */}
       <header className="w-full text-white px-6 py-3 flex items-center justify-between sticky top-0 z-30 shadow-sm" style={{ background: '#0057B8', borderBottom: '1px solid #003d82' }}>
-        <div className="flex items-center gap-2.5">
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="flex items-center gap-2.5 cursor-pointer"
+        >
           <img
             src="/jobify-logo.png"
             alt="Jobify"
@@ -65,7 +68,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               Cambodia
             </span>
           </div>
-        </div>
+        </button>
 
         <div className="flex items-center gap-3">
           <button
