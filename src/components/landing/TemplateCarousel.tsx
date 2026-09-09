@@ -341,7 +341,7 @@ export const TemplateCarousel: React.FC<TemplateCarouselProps> = ({
               <div
                 key={tmpl.id}
                 className="shrink-0 snap-center flex flex-col group"
-                style={{ width: 'clamp(380px, 32vw, 490px)' }}
+                style={{ width: 'clamp(300px, 26vw, 400px)' }}
               >
                 {/* Template Info Pill */}
                 <div className="flex items-center justify-between px-2 mb-2.5">
@@ -366,7 +366,7 @@ export const TemplateCarousel: React.FC<TemplateCarouselProps> = ({
                   onClick={() => {
                     onSelectTemplate(tmpl.id);
                   }}
-                  className={`bg-white rounded-xs shadow-md group-hover:shadow-2xl transition-all duration-300 border overflow-hidden relative cursor-pointer flex flex-col justify-between h-[660px] md:h-[720px] ${
+                  className={`bg-white rounded-xs shadow-md group-hover:shadow-2xl transition-all duration-300 border overflow-hidden relative cursor-pointer flex flex-col justify-between h-[540px] md:h-[590px] ${
                     isSelected
                       ? 'ring-4 ring-indigo-600/40 border-indigo-600 scale-[1.01]'
                       : 'border-slate-300/80 hover:border-slate-400'
