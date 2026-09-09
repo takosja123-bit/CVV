@@ -170,7 +170,7 @@ export const TemplateSageSidebar: React.FC<TemplateProps> = ({ data, primaryColo
 
       {/* Footer watermark matching screenshot */}
       <div className="pt-8 pb-4 text-center text-[9.5px] text-slate-400 font-sans tracking-wide">
-        © JobCraft
+        © JobifyCV
       </div>
     </div>
   );
