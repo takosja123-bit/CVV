@@ -1,0 +1,6 @@
+{
+  "name": "JobCraft CV Builder",
+  "description": "A professional CV and resume builder with multi-template selection, real-time preview, custom styling, and instant PDF export.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

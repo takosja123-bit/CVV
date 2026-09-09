@@ -1,0 +1,178 @@
+{
+  "entities": {
+    "Resume": {
+      "title": "Resume",
+      "description": "User curriculum vitae and resume document",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resume"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner user ID"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title or label for the CV"
+        },
+        "templateId": {
+          "type": "string",
+          "description": "Selected visual template design ID"
+        },
+        "data": {
+          "type": "object",
+          "description": "Structured CV content sections including personal info, experience, education, skills, languages, etc."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of creation"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of last update"
+        }
+      },
+      "required": ["id", "userId", "title", "templateId", "data", "createdAt", "updatedAt"]
+    },
+    "CoverLetter": {
+      "title": "CoverLetter",
+      "description": "User cover letter document",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "company": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": ["id", "userId", "title", "company", "role", "content", "createdAt", "updatedAt"]
+    },
+    "Job": {
+      "title": "Job",
+      "description": "User job application tracker item",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "company": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "salary": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": ["id", "userId", "title", "company", "status", "createdAt", "updatedAt"]
+    },
+    "PublicJob": {
+      "title": "PublicJob",
+      "description": "Public verified job opening posted by employers/admin with direct application link",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "company": { "type": "string" },
+        "location": { "type": "string" },
+        "workType": { "type": "string" },
+        "employmentType": { "type": "string" },
+        "salary": { "type": "string" },
+        "description": { "type": "string" },
+        "applyUrl": { "type": "string" },
+        "postedBy": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "title", "company", "location", "applyUrl", "status", "createdAt"]
+    },
+    "AdminSubmission": {
+      "title": "AdminSubmission",
+      "description": "User requests for pro/premium tier or job postings pending admin review",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "userName": { "type": "string" },
+        "type": { "type": "string" },
+        "title": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "userEmail", "type", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/resumes/{resumeId}": {
+      "schema": {
+        "$ref": "#/entities/Resume"
+      },
+      "description": "Stores individual user CV documents, strictly isolated by user ID"
+    },
+    "/coverLetters/{coverLetterId}": {
+      "schema": {
+        "$ref": "#/entities/CoverLetter"
+      },
+      "description": "Stores user cover letters, strictly isolated by user ID"
+    },
+    "/jobs/{jobId}": {
+      "schema": {
+        "$ref": "#/entities/Job"
+      },
+      "description": "Stores user job applications, strictly isolated by user ID"
+    },
+    "/publicJobs/{jobId}": {
+      "schema": {
+        "$ref": "#/entities/PublicJob"
+      },
+      "description": "Stores verified company job postings with external application links"
+    },
+    "/submissions/{subId}": {
+      "schema": {
+        "$ref": "#/entities/AdminSubmission"
+      },
+      "description": "Stores user upgrade and submission requests for admin review before Telegram notification"
+    }
+  }
+}

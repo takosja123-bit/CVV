@@ -1,0 +1,72 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.email == 'taktempest168@gmail.com';
+    }
+
+    // Health check ping
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+
+    // Resumes Collection - strictly isolated by user ID
+    match /resumes/{resumeId} {
+      allow read, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if isSignedIn() && resource.data.userId == request.auth.uid && request.resource.data.userId == request.auth.uid;
+    }
+
+    // Cover Letters Collection - strictly isolated by user ID
+    match /coverLetters/{letterId} {
+      allow read, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if isSignedIn() && resource.data.userId == request.auth.uid && request.resource.data.userId == request.auth.uid;
+    }
+
+    // Jobs Collection - strictly isolated by user ID
+    match /jobs/{jobId} {
+      allow read, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if isSignedIn() && resource.data.userId == request.auth.uid && request.resource.data.userId == request.auth.uid;
+    }
+
+    // Public Job Board - visible to everyone; created & managed by admin
+    match /publicJobs/{jobId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    // Admin review queue & candidate job applications & user requests
+    match /submissions/{subId} {
+      allow create: if true;
+      allow read, update, delete: if isSignedIn();
+    }
+
+    // App & Telegram settings
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    // User profiles & plan tiers
+    match /userProfiles/{userId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    // Device block list - anyone signed in can be checked against it (read),
+    // but only the admin account can add/remove entries (write).
+    match /blockedDevices/{deviceDocId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+  }
+}
+
+

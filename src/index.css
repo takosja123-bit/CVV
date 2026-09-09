@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #F6F5F2;
+    color: #1E293B;
+  }
+}
+
+.font-serif-title {
+  font-family: 'DM Serif Display', 'Playfair Display', Georgia, serif;
+}
+
+.font-serif-body {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-sans-ui {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.font-display {
+  font-family: 'Outfit', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Custom smooth scroll and scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.5);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.8);
+}
+
+/* Print Stylesheet for flawless CV PDF export */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+  
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .no-print,
+  nav,
+  header,
+  aside,
+  button,
+  .editor-sidebar,
+  .top-navbar,
+  .preview-toolbar {
+    display: none !important;
+  }
+
+  .print-page-wrapper {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+  }
+
+  .cv-document-sheet {
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+    transform: none !important;
+  }
+}
