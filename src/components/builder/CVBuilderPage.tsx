@@ -63,20 +63,99 @@ interface CVBuilderPageProps {
 }
 
 export const CVBuilderPage: React.FC<CVBuilderPageProps> = ({
-  data,
-  selectedTemplate,
-  onChangeData,
-  onSelectTemplate,
-  onBackToLanding,
-  onBackToDashboard,
+  data: dataProp,
+  selectedTemplate: selectedTemplateProp,
+  onChangeData: onChangeDataProp,
+  onSelectTemplate: onSelectTemplateProp,
+  onBackToLanding: onBackToLandingProp,
+  onBackToDashboard: onBackToDashboardProp,
   resumeTitle,
   cloudSyncStatus = 'offline',
   allResumes = [],
   activeResumeId,
-  onSwitchResume,
+  onSwitchResume: onSwitchResumeProp,
   onOpenLogin,
   userEmail,
 }) => {
+  // --- Local, unsaved-until-you-click-Save editing state ---
+  // Edits happen entirely here; nothing reaches the parent (and therefore nothing
+  // gets autosaved to the resume) until the user explicitly clicks "Save".
+  const [localData, setLocalData] = useState<CVData>(dataProp);
+  const [localTemplate, setLocalTemplate] = useState<TemplateId>(selectedTemplateProp);
+  const lastSavedDataRef = useRef<CVData>(dataProp);
+  const lastSavedTemplateRef = useRef<TemplateId>(selectedTemplateProp);
+  const lastLoadedResumeId = useRef<string | undefined>(activeResumeId);
+  const [isSaving, setIsSaving] = useState(false);
+  const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
+  const pendingLeaveAction = useRef<(() => void) | null>(null);
+
+  // Shadow the prop names so every existing `data` / `selectedTemplate` reference
+  // below (used throughout the form + preview) transparently reads local state.
+  const data = localData;
+  const selectedTemplate = localTemplate;
+
+  const isDirty =
+    JSON.stringify(localData) !== JSON.stringify(lastSavedDataRef.current) ||
+    localTemplate !== lastSavedTemplateRef.current;
+
+  // When a genuinely different resume is opened (not just our own save round-tripping
+  // back through props), reset local editing state to match it.
+  useEffect(() => {
+    if (activeResumeId !== lastLoadedResumeId.current) {
+      lastLoadedResumeId.current = activeResumeId;
+      setLocalData(dataProp);
+      setLocalTemplate(selectedTemplateProp);
+      lastSavedDataRef.current = dataProp;
+      lastSavedTemplateRef.current = selectedTemplateProp;
+      setHistory([dataProp]);
+      setHistoryIndex(0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeResumeId]);
+
+  const handleSave = useCallback(() => {
+    setIsSaving(true);
+    onChangeDataProp(localData);
+    onSelectTemplateProp(localTemplate);
+    lastSavedDataRef.current = localData;
+    lastSavedTemplateRef.current = localTemplate;
+    setTimeout(() => setIsSaving(false), 500);
+  }, [localData, localTemplate, onChangeDataProp, onSelectTemplateProp]);
+
+  // Warn on actual browser tab close / refresh if there are unsaved changes.
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (isDirty) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [isDirty]);
+
+  // Any in-app navigation away from the builder (back arrow, switching resumes, etc.)
+  // routes through here so we can ask first if there are unsaved changes.
+  const requestLeave = useCallback(
+    (action: () => void) => {
+      if (isDirty) {
+        pendingLeaveAction.current = action;
+        setShowLeaveConfirm(true);
+      } else {
+        action();
+      }
+    },
+    [isDirty]
+  );
+
+  const onBackToLanding = useCallback(() => requestLeave(onBackToLandingProp), [requestLeave, onBackToLandingProp]);
+  const onBackToDashboard = onBackToDashboardProp
+    ? () => requestLeave(onBackToDashboardProp)
+    : undefined;
+  const onSwitchResume = onSwitchResumeProp
+    ? (resume: ResumeItem) => requestLeave(() => onSwitchResumeProp(resume))
+    : undefined;
+
   const [activeTab, setActiveTab] = useState<BuilderTab>('personal');
   const [focusExperienceId, setFocusExperienceId] = useState<string | null>(null);
   const [focusEducationId, setFocusEducationId] = useState<string | null>(null);
@@ -105,7 +184,7 @@ export const CVBuilderPage: React.FC<CVBuilderPageProps> = ({
     (newData: CVData) => {
       if (isUndoRedoAction.current) {
         isUndoRedoAction.current = false;
-        onChangeData(newData);
+        setLocalData(newData);
         return;
       }
       setHistory((prev) => {
@@ -113,9 +192,9 @@ export const CVBuilderPage: React.FC<CVBuilderPageProps> = ({
         return [...sliced, newData].slice(-30); // keep up to 30 history steps
       });
       setHistoryIndex((prev) => Math.min(prev + 1, 29));
-      onChangeData(newData);
+      setLocalData(newData);
     },
-    [historyIndex, onChangeData]
+    [historyIndex]
   );
 
   // --- Double-click on preview text -> jump to its location in the edit form ---
@@ -210,18 +289,18 @@ export const CVBuilderPage: React.FC<CVBuilderPageProps> = ({
     isUndoRedoAction.current = true;
     const newIdx = historyIndex - 1;
     setHistoryIndex(newIdx);
-    onChangeData(history[newIdx]);
+    setLocalData(history[newIdx]);
     showToast('Undo edit');
-  }, [canUndo, history, historyIndex, onChangeData]);
+  }, [canUndo, history, historyIndex]);
 
   const handleRedo = useCallback(() => {
     if (!canRedo) return;
     isUndoRedoAction.current = true;
     const newIdx = historyIndex + 1;
     setHistoryIndex(newIdx);
-    onChangeData(history[newIdx]);
+    setLocalData(history[newIdx]);
     showToast('Redo edit');
-  }, [canRedo, history, historyIndex, onChangeData]);
+  }, [canRedo, history, historyIndex]);
 
   // Keyboard shortcut listener for Ctrl+Z and Ctrl+Y / Cmd+Shift+Z
   useEffect(() => {
@@ -438,7 +517,7 @@ export const CVBuilderPage: React.FC<CVBuilderPageProps> = ({
             <select
               value={selectedTemplate}
               onChange={(e) => {
-                onSelectTemplate(e.target.value as TemplateId);
+                setLocalTemplate(e.target.value as TemplateId);
                 setCustomPrimaryColor(null);
               }}
               className="bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-indigo-500 cursor-pointer font-medium max-w-[140px]"
@@ -467,6 +546,27 @@ export const CVBuilderPage: React.FC<CVBuilderPageProps> = ({
             title="Public shareable link"
           >
             <Share2 className="w-4 h-4" />
+          </button>
+
+          {/* Save Button - edits stay local until this is clicked */}
+          <button
+            onClick={handleSave}
+            disabled={!isDirty || isSaving}
+            className={`flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm cursor-pointer transition-colors relative ${
+              isDirty
+                ? 'bg-emerald-600 hover:bg-emerald-500 text-white'
+                : 'bg-slate-800 text-slate-400 border border-slate-700 cursor-default'
+            } ${isSaving ? 'opacity-75 cursor-wait' : ''}`}
+            title={isDirty ? 'Save changes to this resume' : 'No unsaved changes'}
+          >
+            {isSaving ? (
+              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+            ) : isDirty ? (
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse shrink-0" />
+            ) : (
+              <Check className="w-3.5 h-3.5" />
+            )}
+            <span>{isSaving ? 'Saving...' : isDirty ? 'Save' : 'Saved'}</span>
           </button>
 
           {/* Download Dropdown */}
@@ -833,11 +933,11 @@ export const CVBuilderPage: React.FC<CVBuilderPageProps> = ({
         templateId={selectedTemplate}
         selectedTemplate={selectedTemplate}
         onSwitchTemplate={(targetId) => {
-          onSelectTemplate(targetId);
+          setLocalTemplate(targetId);
           showToast('Switched to ATS Template!');
         }}
         onSwitchToAtsTemplate={() => {
-          onSelectTemplate('template-ats-classic');
+          setLocalTemplate('template-ats-classic');
           showToast('Switched to ATS Classic Template!');
         }}
         onNavigateToTab={(tab) => {
@@ -879,6 +979,50 @@ export const CVBuilderPage: React.FC<CVBuilderPageProps> = ({
         }}
       />
 
+      {/* Unsaved changes confirmation, shown when leaving without saving */}
+      {showLeaveConfirm && (
+        <div className="fixed inset-0 z-[100] bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-sm p-6 animate-in fade-in zoom-in-95 duration-150">
+            <h3 className="text-base font-bold text-slate-900">You have unsaved changes</h3>
+            <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
+              Do you want to save your changes to this resume before leaving? If not, your edits since the last save will be lost.
+            </p>
+            <div className="flex flex-col gap-2 mt-5">
+              <button
+                onClick={() => {
+                  handleSave();
+                  setShowLeaveConfirm(false);
+                  pendingLeaveAction.current?.();
+                  pendingLeaveAction.current = null;
+                }}
+                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg cursor-pointer transition-colors"
+              >
+                Save and Leave
+              </button>
+              <button
+                onClick={() => {
+                  setShowLeaveConfirm(false);
+                  pendingLeaveAction.current?.();
+                  pendingLeaveAction.current = null;
+                }}
+                className="w-full bg-white hover:bg-rose-50 text-rose-600 border border-rose-200 text-xs font-bold px-4 py-2.5 rounded-lg cursor-pointer transition-colors"
+              >
+                Discard Changes and Leave
+              </button>
+              <button
+                onClick={() => {
+                  setShowLeaveConfirm(false);
+                  pendingLeaveAction.current = null;
+                }}
+                className="w-full text-slate-500 hover:text-slate-800 text-xs font-semibold px-4 py-2 cursor-pointer transition-colors"
+              >
+                Cancel, keep editing
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Feedback Toast */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white text-xs px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2 animate-in fade-in">
@@ -913,12 +1057,12 @@ export const CVBuilderPage: React.FC<CVBuilderPageProps> = ({
                 data={data}
                 selectedTemplate={selectedTemplate}
                 onSelectTemplate={(newId) => {
-                  onSelectTemplate(newId);
+                  setLocalTemplate(newId);
                   setCustomPrimaryColor(null);
                   showToast('Template switched!');
                 }}
                 onCreateCV={(newId) => {
-                  if (newId) onSelectTemplate(newId);
+                  if (newId) setLocalTemplate(newId);
                   setIsTemplateModalOpen(false);
                 }}
               />
