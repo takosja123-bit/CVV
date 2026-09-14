@@ -478,7 +478,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               <div className="relative group">
                 <div 
                   onClick={() => onCreateCV(currentTemplate.id)}
-                  className="cursor-pointer bg-white rounded-lg shadow-lg border border-slate-200 overflow-hidden transform group-hover:scale-[1.01] transition-transform duration-200 max-h-[600px] overflow-y-auto"
+                  className="cv-document-sheet cursor-pointer bg-white rounded-lg shadow-lg border border-slate-200 overflow-hidden transform group-hover:scale-[1.01] transition-transform duration-200 max-h-[600px] overflow-y-auto"
                 >
                   <TemplateDispatcher
                     templateId={currentTemplate.id}
