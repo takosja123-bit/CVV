@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Download, Check, Loader2 } from 'lucide-react';
+import { Download, Check, Loader2, AlertCircle } from 'lucide-react';
 import { CVData, TemplateId } from '../../types';
-import { downloadDirectPdf, downloadPdf } from '../../utils/exportCV';
+import { downloadDirectPdf } from '../../utils/exportCV';
 
 interface DownloadMenuProps {
   data: CVData;
@@ -22,17 +22,24 @@ export const DownloadMenu: React.FC<DownloadMenuProps> = ({
 }) => {
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   const handleDownloadDirectPdf = async () => {
     setIsGeneratingPdf(true);
+    setFailed(false);
     try {
-      await downloadDirectPdf(data, templateId, primaryColor);
-      setDownloaded(true);
-      setTimeout(() => setDownloaded(false), 3000);
+      const success = await downloadDirectPdf(data, templateId, primaryColor);
+      if (success) {
+        setDownloaded(true);
+        setTimeout(() => setDownloaded(false), 3000);
+      } else {
+        setFailed(true);
+        setTimeout(() => setFailed(false), 3000);
+      }
     } catch (err) {
       console.error('Failed to generate PDF', err);
-      // Fallback
-      downloadPdf();
+      setFailed(true);
+      setTimeout(() => setFailed(false), 3000);
     } finally {
       setIsGeneratingPdf(false);
     }
@@ -66,6 +73,14 @@ export const DownloadMenu: React.FC<DownloadMenuProps> = ({
         <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white text-xs px-4 py-2.5 rounded-lg shadow-xl flex items-center gap-2 animate-in fade-in">
           <Check className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>PDF Document (.pdf) downloaded successfully!</span>
+        </div>
+      )}
+
+      {/* Error notification, no dialogs or navigation — stays right here */}
+      {failed && (
+        <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white text-xs px-4 py-2.5 rounded-lg shadow-xl flex items-center gap-2 animate-in fade-in">
+          <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+          <span>Couldn't generate the PDF. Please try again.</span>
         </div>
       )}
     </div>
