@@ -5,6 +5,57 @@ import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
 import * as htmlToImage from 'html-to-image';
 
+// 1x1 transparent PNG, used as a safe stand-in for any photo we can't read cross-origin.
+const BLANK_PIXEL =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=';
+
+/**
+ * Cross-origin <img> tags (e.g. sample avatar photos hosted on a third-party domain)
+ * taint the canvas: even though html-to-image can often still *draw* them, any later
+ * read of pixel data (toDataURL / getImageData) throws a SecurityError and silently
+ * kills the whole export. To avoid that, before capture we try to re-fetch every
+ * non-data-URI image as a same-origin blob and inline it as a base64 data URI. If that
+ * fetch itself is blocked by CORS, we swap in a blank placeholder instead of letting it
+ * taint the canvas. Everything is restored to its original src afterwards.
+ */
+async function neutralizeCrossOriginImages(root: HTMLElement): Promise<() => void> {
+  const imgs = Array.from(root.querySelectorAll('img'));
+  const originals: { el: HTMLImageElement; src: string }[] = [];
+
+  await Promise.all(
+    imgs.map(async (img) => {
+      const src = img.getAttribute('src') || '';
+      if (!src || src.startsWith('data:')) return;
+
+      originals.push({ el: img, src });
+
+      try {
+        const res = await fetch(src, { mode: 'cors', cache: 'no-cache' });
+        const blob = await res.blob();
+        const dataUrl: string = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        });
+        img.src = dataUrl;
+        await img.decode().catch(() => {});
+      } catch {
+        // Couldn't safely read this image cross-origin — use a blank placeholder
+        // rather than let it taint the canvas and fail the entire export.
+        img.src = BLANK_PIXEL;
+        await img.decode().catch(() => {});
+      }
+    })
+  );
+
+  return () => {
+    originals.forEach(({ el, src }) => {
+      el.src = src;
+    });
+  };
+}
+
 /**
  * Downloads a high-resolution, pixel-perfect PDF file (.pdf)
  * by capturing the rendered CV template with html-to-image (supports OKLCH and modern CSS) and assembling via jsPDF.
@@ -24,11 +75,15 @@ export async function downloadDirectPdf(
     // Save previous styles
     const originalTransform = sheetElement.style.transform;
     const originalTransformOrigin = sheetElement.style.transformOrigin;
+    let restoreImages: (() => void) | null = null;
 
     try {
+      restoreImages = await neutralizeCrossOriginImages(sheetElement);
+
       // Temporarily remove CSS zoom/scale transform so canvas captures unscaled 100% dimensions
       sheetElement.style.transform = 'none';
       sheetElement.style.transformOrigin = 'top left';
+
 
       // Capture at high pixelRatio for crisp typography. We use toCanvas (not toPng)
       // because we need raw pixel access to find safe places to cut between pages.
@@ -153,6 +208,10 @@ export async function downloadDirectPdf(
       sheetElement.style.transform = originalTransform;
       sheetElement.style.transformOrigin = originalTransformOrigin;
       return false;
+    } finally {
+      // Always put the live preview's images back the way they were, whether
+      // capture succeeded or failed.
+      restoreImages?.();
     }
   }
 
