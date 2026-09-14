@@ -32,11 +32,31 @@ export async function downloadDirectPdf(
 
       // Capture at high pixelRatio for crisp typography. We use toCanvas (not toPng)
       // because we need raw pixel access to find safe places to cut between pages.
-      const sourceCanvas = await htmlToImage.toCanvas(sheetElement, {
-        pixelRatio: 2,
-        backgroundColor: '#ffffff',
-        cacheBust: true,
-      });
+      // Try a few progressively safer capture strategies: full-quality first (embeds
+      // Google Fonts + images), then a version that skips font embedding (common source
+      // of failures when the font CDN can't be reached), then a lower-resolution pass.
+      // This means a single flaky image/font never blocks the whole download.
+      let sourceCanvas: HTMLCanvasElement | null = null;
+      let lastCaptureErr: unknown = null;
+      const captureAttempts: Parameters<typeof htmlToImage.toCanvas>[1][] = [
+        { pixelRatio: 2, backgroundColor: '#ffffff', cacheBust: true },
+        { pixelRatio: 2, backgroundColor: '#ffffff', cacheBust: true, skipFonts: true, imagePlaceholder: '', onImageErrorHandler: () => {} },
+        { pixelRatio: 1, backgroundColor: '#ffffff', cacheBust: true, skipFonts: true, imagePlaceholder: '', onImageErrorHandler: () => {} },
+      ];
+
+      for (const attemptOptions of captureAttempts) {
+        try {
+          sourceCanvas = await htmlToImage.toCanvas(sheetElement, attemptOptions);
+          break;
+        } catch (attemptErr) {
+          lastCaptureErr = attemptErr;
+          sourceCanvas = null;
+        }
+      }
+
+      if (!sourceCanvas) {
+        throw lastCaptureErr || new Error('PDF capture failed after all retry attempts');
+      }
 
       // Restore original transform
       sheetElement.style.transform = originalTransform;
