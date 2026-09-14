@@ -128,16 +128,20 @@ export async function downloadDirectPdf(
       pdf.save(fileName);
       return true;
     } catch (captureErr) {
-      console.warn('Direct image-based PDF generation encountered an issue, falling back to print dialog:', captureErr);
+      console.warn('Direct image-based PDF generation encountered an issue:', captureErr);
       // Ensure transform is restored in case of error
       sheetElement.style.transform = originalTransform;
       sheetElement.style.transformOrigin = originalTransformOrigin;
+      return false;
     }
   }
 
-  // Fallback: Open formatted printable window
-  openPrintableResume(data, templateId, primaryColor);
-  return true;
+  // No capture target found on the page — nothing we can safely export.
+  // We deliberately do NOT open a new tab or trigger the browser print dialog here;
+  // the caller can decide how to surface this (e.g. a small inline notice).
+  console.warn('downloadDirectPdf: could not find element to capture:', elementSelector);
+  return false;
+
 }
 
 /**
